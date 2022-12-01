@@ -105,6 +105,22 @@ func remove(s []string, e string) []string {
 	return res
 }
 
+func removeInt(s []int, e int) []int {
+	i := funk.IndexOf(s, e)
+	if i < 0 {
+		return s
+	}
+	res := make([]int, 0)
+	if i == 0 {
+		res = s[i+1:]
+	} else if i == len(s)-1 {
+		res = s[:i]
+	} else {
+		res = append(s[:i], s[i+1:]...)
+	}
+	return res
+}
+
 func contains(s []string, e string) bool {
 	return funk.IndexOf(s, e) >= 0
 }

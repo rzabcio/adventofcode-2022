@@ -17,8 +17,18 @@ func Day1_1(filename string) (result int) {
 }
 
 func Day1_2(filename string) (result int) {
-	// f := NewFellowship(filename)
+	f := NewFellowship(filename)
+	totals := make([]int, len(f.totals))
+	var max int
+	copy(totals, f.totals)
 
+	for range []int{0, 1, 2} {
+		_, max = minMax(totals)
+		totals = removeInt(totals, max)
+		result += max
+	}
+
+	fmt.Printf("==> three best backpacks have %d calories\n", result)
 	return
 }
 
