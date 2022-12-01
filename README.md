@@ -1,18 +1,17 @@
-# Advent of Code 2021
-Just my solutions for [Advent of Code 2019](https://adventofcode.com/2020). Starting from day 4 because previous were in Elixir.
+# Advent of Code 2022
+Just my solutions for [Advent of Code 2022](https://adventofcode.com/2022).
 
-Uses [Cobra](https://github.com/spf13/cobra) as CLI framework.
+Uses [Cobra](https://github.com/spf13/cobra) as CLI framework and [Go-Funk](https://github.com/thoas/go-funk) for some array processing tools.
 
 Requirements installation:
 ~~~~
 > go mod tidy
 ~~~~
 
-(2021-11) How to run specific puzzle (input files included in /input-files):
+How to run specific puzzle (input files included in /input-files):
 ~~~~
 > go run main.go day*.go day <day:1-25> <part:1/2> <input-file>
 ~~~~
-
 
 Because of TDD approach, tests are also included:
 ~~~~
