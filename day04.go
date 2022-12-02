@@ -13,12 +13,14 @@ import (
 func Day04_1(filename string) (result int) {
 	bc := NewBeachCleaning(filename)
 	result = bc.countFullyOverlappingTeams()
-	fmt.Printf("04.1 ==> number of overallping cleaning tems: %d\n", result)
+	fmt.Printf("04.1 ==> number of fully overlapping cleaning tems: %d\n", result)
 	return
 }
 
 func Day04_2(filename string) (result int) {
-	fmt.Printf("04.1 ==> %d\n", result)
+	bc := NewBeachCleaning(filename)
+	result = bc.countAllOverlappingTeams()
+	fmt.Printf("04.1 ==> number of all overlaping cleaning teams: %d\n", result)
 	return
 }
 
@@ -42,6 +44,16 @@ func (bc *BeachCleaning) countFullyOverlappingTeams() (result int) {
 		diff1, diff1_ := funk.DifferenceInt(ct.s1, intersection)
 		diff2, diff2_ := funk.DifferenceInt(ct.s2, intersection)
 		if (len(diff1) == 0 && len(diff1_) == 0) || (len(diff2) == 0 && len(diff2_) == 0) {
+			result++
+		}
+	}
+	return result
+}
+
+func (bc *BeachCleaning) countAllOverlappingTeams() (result int) {
+	for _, ct := range bc.teams {
+		intersection := funk.Intersect(ct.s1, ct.s2).([]int)
+		if len(intersection) > 0 {
 			result++
 		}
 	}
