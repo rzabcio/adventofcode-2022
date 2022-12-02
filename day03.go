@@ -15,12 +15,14 @@ func Day03_1(filename string) (result int) {
 	for _, s := range rs.rucksacks {
 		result += s.invalidVal
 	}
-	fmt.Printf("03.1 ==> sum of invalid items is %d\n", result)
+	fmt.Printf("03.1 ==> sum of invalid items: %d\n", result)
 	return
 }
 
 func Day03_2(filename string) (result int) {
-	fmt.Printf("03.1 ==> %d\n", result)
+	rs := NewRucksacks(filename)
+	result = rs.badgesVal()
+	fmt.Printf("03.1 ==> sum of badges of all groups: %d\n", result)
 	return
 }
 
@@ -39,7 +41,18 @@ func NewRucksacks(filename string) (rs *Rucksacks) {
 	return rs
 }
 
+func (rs *Rucksacks) badgesVal() (result int) {
+	for i := 0; i < len(rs.rucksacks)-2; i = i + 3 {
+		inter := funk.IntersectString(rs.rucksacks[i].items, rs.rucksacks[i+1].items)
+		inter = funk.IntersectString(inter, rs.rucksacks[i+2].items)
+		inter = funk.UniqString(inter)
+		result += stringToItemValue(inter[0])
+	}
+	return result
+}
+
 type Sack struct {
+	items      []string
 	l          []string
 	r          []string
 	invalid    []string
@@ -48,10 +61,10 @@ type Sack struct {
 
 func NewSack(line string) (s *Sack) {
 	s = new(Sack)
-	split := strings.Split(line, "")
-	halfLen := len(split) / 2
-	s.l = split[:halfLen:halfLen]
-	s.r = split[halfLen:len(split):len(split)]
+	s.items = strings.Split(line, "")
+	halfLen := len(s.items) / 2
+	s.l = s.items[:halfLen:halfLen]
+	s.r = s.items[halfLen:len(s.items):len(s.items)]
 	s.invalid = funk.UniqString(funk.IntersectString(s.l, s.r))
 	s.invalidVal = stringToItemValue(s.invalid[0])
 	return s
