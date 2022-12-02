@@ -8,25 +8,25 @@ import (
 	// "github.com/thoas/go-funk"
 )
 
-func Day2_1(filename string) (result int) {
+func Day02_1(filename string) (result int) {
 	s := NewStrategy(filename)
 	for _, r := range s.rounds {
 		r.calculateResult()
 		// fmt.Printf("- %v => result: %d, score: %d\n", r, r.result, r.myScore())
 		result += r.myScore()
 	}
-	fmt.Printf("==> my total score: %d\n", result)
+	fmt.Printf("02.1 ==> my total score: %d\n", result)
 	return
 }
 
-func Day2_2(filename string) (result int) {
+func Day02_2(filename string) (result int) {
 	s := NewStrategy(filename)
 	for _, r := range s.rounds {
 		r.calculateMyMove()
 		// fmt.Printf("- %v => result: %d, score: %d\n", r, r.result, r.myScore())
 		result += r.myScore()
 	}
-	fmt.Printf("==> my total score: %d\n", result)
+	fmt.Printf("02.2 ==> my total score: %d\n", result)
 	return
 }
 

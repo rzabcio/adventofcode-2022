@@ -9,14 +9,14 @@ import (
 	"github.com/thoas/go-funk"
 )
 
-func Day1_1(filename string) (result int) {
+func Day01_1(filename string) (result int) {
 	f := NewFellowship(filename)
 	_, result = minMax(f.totals)
-	fmt.Printf("==> backpack with most rations has %d calories\n", result)
+	fmt.Printf("01.1 ==> backpack with most rations has %d calories\n", result)
 	return
 }
 
-func Day1_2(filename string) (result int) {
+func Day01_2(filename string) (result int) {
 	f := NewFellowship(filename)
 	totals := make([]int, len(f.totals))
 	var max int
@@ -28,7 +28,7 @@ func Day1_2(filename string) (result int) {
 		result += max
 	}
 
-	fmt.Printf("==> three best backpacks have %d calories\n", result)
+	fmt.Printf("01.2 ==> three best backpacks have %d calories\n", result)
 	return
 }
 
