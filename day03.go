@@ -40,11 +40,10 @@ func NewRucksacks(filename string) (rs *Rucksacks) {
 }
 
 type Sack struct {
-	l           []string
-	r           []string
-	invalid     []string
-	invalidVal  int
-	invalidVal2 int
+	l          []string
+	r          []string
+	invalid    []string
+	invalidVal int
 }
 
 func NewSack(line string) (s *Sack) {
@@ -54,12 +53,16 @@ func NewSack(line string) (s *Sack) {
 	s.l = split[:halfLen:halfLen]
 	s.r = split[halfLen:len(split):len(split)]
 	s.invalid = funk.UniqString(funk.IntersectString(s.l, s.r))
-	s.invalidVal = int([]byte(s.invalid[0])[0])
-	if s.invalidVal > 96 {
-		s.invalidVal -= 96
-	} else {
-		s.invalidVal -= 38
-	}
-
+	s.invalidVal = stringToItemValue(s.invalid[0])
 	return s
+}
+
+func stringToItemValue(item string) (val int) {
+	val = int([]byte(item)[0])
+	if val > 96 {
+		val -= 96
+	} else {
+		val -= 38
+	}
+	return val
 }
