@@ -50,7 +50,7 @@ func NewRound(line string) *Round {
 	return r
 }
 
-func (r *Round) decodeMoves() {
+func (r *Round) decodeTheir() {
 	split := strings.Split(r.line, " ")
 	switch split[0] {
 	case "A":
@@ -60,6 +60,10 @@ func (r *Round) decodeMoves() {
 	case "C":
 		r.their = 3
 	}
+}
+
+func (r *Round) decodeMy() {
+	split := strings.Split(r.line, " ")
 	switch split[1] {
 	case "X":
 		r.my = 1
@@ -71,7 +75,8 @@ func (r *Round) decodeMoves() {
 }
 
 func (r *Round) calculateResult() {
-	r.decodeMoves()
+	r.decodeTheir()
+	r.decodeMy()
 	if r.my-r.their == 1 {
 		r.result = 6
 	} else if r.my-r.their == 0 {
