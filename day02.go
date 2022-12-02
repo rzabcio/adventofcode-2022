@@ -11,7 +11,8 @@ import (
 func Day2_1(filename string) (result int) {
 	s := NewStrategy(filename)
 	for _, r := range s.rounds {
-		// fmt.Printf("- %v => result: %d, score: %d\n", r, r.myResult(), r.myScore())
+		r.calculateResult()
+		// fmt.Printf("- %v => result: %d, score: %d\n", r, r.result, r.myScore())
 		result += r.myScore()
 	}
 	fmt.Printf("==> my total score: %d\n", result)
@@ -37,19 +38,19 @@ func NewStrategy(filename string) *Strategy {
 }
 
 type Round struct {
-	line  string
-	their int
-	my    int
+	line   string
+	their  int
+	my     int
+	result int
 }
 
 func NewRound(line string) *Round {
 	r := new(Round)
 	r.line = line
-	r.decodeLine()
 	return r
 }
 
-func (r *Round) decodeLine() {
+func (r *Round) decodeMoves() {
 	split := strings.Split(r.line, " ")
 	switch split[0] {
 	case "A":
@@ -69,18 +70,19 @@ func (r *Round) decodeLine() {
 	}
 }
 
-func (r *Round) myResult() int {
+func (r *Round) calculateResult() {
+	r.decodeMoves()
 	if r.my-r.their == 1 {
-		return 6
+		r.result = 6
 	} else if r.my-r.their == 0 {
-		return 3
+		r.result = 3
 	} else if r.my-r.their == -2 {
-		return 6
+		r.result = 6
 	} else {
-		return 0
+		r.result = 0
 	}
 }
 
 func (r *Round) myScore() int {
-	return r.myResult() + r.my
+	return r.result + r.my
 }
