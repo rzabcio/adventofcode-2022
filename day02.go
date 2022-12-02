@@ -20,6 +20,13 @@ func Day2_1(filename string) (result int) {
 }
 
 func Day2_2(filename string) (result int) {
+	s := NewStrategy(filename)
+	for _, r := range s.rounds {
+		r.calculateMyMove()
+		// fmt.Printf("- %v => result: %d, score: %d\n", r, r.result, r.myScore())
+		result += r.myScore()
+	}
+	fmt.Printf("==> my total score: %d\n", result)
 	return
 }
 
@@ -74,6 +81,18 @@ func (r *Round) decodeMy() {
 	}
 }
 
+func (r *Round) decodeResult() {
+	split := strings.Split(r.line, " ")
+	switch split[1] {
+	case "X":
+		r.result = 0
+	case "Y":
+		r.result = 3
+	case "Z":
+		r.result = 6
+	}
+}
+
 func (r *Round) calculateResult() {
 	r.decodeTheir()
 	r.decodeMy()
@@ -85,6 +104,22 @@ func (r *Round) calculateResult() {
 		r.result = 6
 	} else {
 		r.result = 0
+	}
+}
+
+func (r *Round) calculateMyMove() {
+	r.decodeTheir()
+	r.decodeResult()
+	if r.result == 6 && r.their == 3 {
+		r.my = 1
+	} else if r.result == 6 {
+		r.my = r.their + 1
+	} else if r.result == 3 {
+		r.my = r.their
+	} else if r.their == 1 {
+		r.my = 3
+	} else {
+		r.my = r.their - 1
 	}
 }
 
