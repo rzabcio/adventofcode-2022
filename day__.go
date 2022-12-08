@@ -14,6 +14,6 @@ func DayNN_1(filename string) (result int) {
 }
 
 func DayNN_2(filename string) (result int) {
-	fmt.Printf("NN.1 ==> %d\n", result)
+	fmt.Printf("NN.2 ==> %d\n", result)
 	return
 }
