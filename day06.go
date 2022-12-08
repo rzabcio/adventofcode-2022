@@ -17,7 +17,10 @@ func Day06_1(filename string) (result int) {
 }
 
 func Day06_2(filename string) (result int) {
-	fmt.Printf("06.1 ==> %d\n", result)
+	for _, rs := range loadFile(filename) {
+		result = rs.findMarker(14)
+		fmt.Printf("06.2 ==> marker for message '%s' is '%s' on %d position\n", rs.message, rs.marker, result)
+	}
 	return
 }
 
@@ -43,20 +46,15 @@ func NewRadioSequence(line string) (rs *RadioSequence) {
 func (rs *RadioSequence) findMarker(length int) (pos int) {
 	rs.marker = ""
 	for _, char := range rs.message {
-		indexOfChar := lastIndexOfRune(rs.marker, char)
+		indexOfChar := indexOfRune(rs.marker, char)
 		if indexOfChar > -1 {
-			newMarker := ""
-			for i := indexOfChar + 1; i < len(rs.marker); i++ {
-				newMarker += string(rs.marker[i])
-			}
-			// fmt.Printf("  next letter: '%s' -> cut '%s' from %d to %d: %s\n", string(char),rs.marker,indexOfChar,len(rs.marker),newMarker,)
-			rs.marker = newMarker
+			rs.marker = rs.marker[indexOfChar+1:]
 		}
 		rs.marker += string(char)
 		pos++
 		// fmt.Printf("- %d: %s -> %s\n", pos, string(char), rs.marker)
 		if len(rs.marker) == length {
-			return pos
+			break
 		}
 	}
 	return pos
