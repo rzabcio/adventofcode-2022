@@ -16,13 +16,17 @@ func Day05_1(filename string) (result int) {
 }
 
 func Day05_2(filename string) (result int) {
-	fmt.Printf("05.1 ==> %d\n", result)
+	ls := NewLoadingSpace(filename)
+	ls.newCrane = true
+	ls.Rearrange()
+	fmt.Printf("05.2 ==> top crates: %v\n", ls.Tops())
 	return
 }
 
 type LoadingSpace struct {
-	stacks []CrateStack
-	moves  [][]int
+	stacks   []CrateStack
+	moves    [][]int
+	newCrane bool
 }
 
 func NewLoadingSpace(filename string) (ls *LoadingSpace) {
@@ -53,6 +57,9 @@ func (ls *LoadingSpace) Move(count, from, to int) {
 	if !ok {
 		fmt.Printf("---error---\n")
 		return
+	}
+	if ls.newCrane {
+		crates = reverseStrArr(crates)
 	}
 	ls.stacks[to].PushAll(crates)
 }
