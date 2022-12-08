@@ -48,13 +48,13 @@ func TestDay04(t *testing.T) {
 	}
 }
 
-func TestDay05(t *testing.T) {
-	got, want := Day05_1("input-files/day05-test1.txt"), 0
+func TestDay06(t *testing.T) {
+	got, want := Day06_1("input-files/day06-test1.txt"), 0
 	if got != want {
-		t.Errorf("Day05_1(test1) = %d; want %d", got, want)
+		t.Errorf("Day06_1(test1) = %d; want %d", got, want)
 	}
-	got, want = Day05_2("input-files/day05-test1.txt"), 0
+	got, want = Day06_2("input-files/day06-test1.txt"), 0
 	if got != want {
-		t.Errorf("Day05_2(test1) = %d; want %d", got, want)
+		t.Errorf("Day06_2(test1) = %d; want %d", got, want)
 	}
 }

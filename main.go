@@ -20,6 +20,7 @@ func main() {
 		"day3_1": Day03_1, "day3_2": Day03_2,
 		"day4_1": Day04_1, "day4_2": Day04_2,
 		"day5_1": Day05_1, "day5_2": Day05_2,
+		"day6_1": Day06_1, "day6_2": Day06_2,
 	}
 
 	day := &cobra.Command{
@@ -140,6 +141,25 @@ func indexOfInt(s []int, e int) int {
 		}
 	}
 	return -1
+}
+
+func indexOfRune(s string, e rune) int {
+	for i, a := range s {
+		if a == e {
+			return i
+		}
+	}
+	return -1
+}
+
+func lastIndexOfRune(s string, e rune) (pos int) {
+	pos = -1
+	for i, a := range s {
+		if a == e {
+			pos = i
+		}
+	}
+	return pos
 }
 
 func reverseStrArr(ss []string) []string {
