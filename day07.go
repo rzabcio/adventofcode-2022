@@ -18,8 +18,11 @@ func Day07_1(filename string) (result int) {
 }
 
 func Day07_2(filename string) (result int) {
-	fmt.Printf("07.2 ==> %d\n", result)
-	return
+	dc := NewDirectoryCrawler(filename)
+	sizeNeeded := 30000000 - (70000000 - dc.root.SizeR())
+	dirs, result := dc.dirsSizeGeq(sizeNeeded)
+	fmt.Printf("07.2 ==> dirs with size greater than %d (smallest's size %d): %v\n", sizeNeeded, result, dirs)
+	return result
 }
 
 type DirectoryCrawler struct {
@@ -79,6 +82,23 @@ func (dc *DirectoryCrawler) dirsSizeLeq(maxSize int) (dirs []*Directory, totalSi
 		}
 	}
 	return dirs, totalSize
+}
+
+func (dc *DirectoryCrawler) dirsSizeGeq(maxSize int) (dirs []*Directory, smallestSize int) {
+	for _, dir := range dc.dirsFlat() {
+		size := dir.SizeR()
+		if size >= maxSize {
+			dirs = append(dirs, dir)
+			if smallestSize == 0 {
+				smallestSize = size
+			} else if smallestSize > size {
+				smallestSize = size
+			}
+		} else {
+			// fmt.Printf("    %s size: %d\n", dir.name, size)
+		}
+	}
+	return dirs, smallestSize
 }
 
 func (dc DirectoryCrawler) Print() (s string) {
