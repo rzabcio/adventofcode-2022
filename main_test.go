@@ -57,7 +57,7 @@ func TestDay08(t *testing.T) {
 	if got != want {
 		t.Errorf("Day08_1(test1) = %d; want %d", got, want)
 	}
-	got, want = Day08_2("input-files/day08-test2.txt"), 0
+	got, want = Day08_2("input-files/day08-test2.txt"), 8
 	if got != want {
 		t.Errorf("Day08_2(testw) = %d; want %d", got, want)
 	}

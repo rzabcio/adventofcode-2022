@@ -17,7 +17,10 @@ func Day08_1(filename string) (result int) {
 }
 
 func Day08_2(filename string) (result int) {
-	fmt.Printf("08.2 ==> %d\n", result)
+	tf := NewTreeForest(filename)
+	tf.checkScenicScore()
+	result = tf.findBestScenicScore()
+	fmt.Printf("08.2 ==> best scenic score is %d\n", result)
 	return result
 }
 
@@ -26,11 +29,15 @@ type TreeForest struct {
 }
 
 type Tree struct {
-	h    int
-	nInv bool
-	sInv bool
-	wInv bool
-	eInv bool
+	h      int
+	nInv   bool
+	sInv   bool
+	wInv   bool
+	eInv   bool
+	wScore int
+	nScore int
+	eScore int
+	sScore int
 }
 
 func NewTreeForest(filename string) (tf TreeForest) {
@@ -98,10 +105,63 @@ func (tf TreeForest) countVisible() (i int) {
 	return i
 }
 
+func (tf *TreeForest) checkScenicScore() {
+	for it, treeLine := range tf.trees {
+		for jt, tree := range treeLine {
+			if jt > 0 {
+				for j := jt - 1; j >= 0; j-- {
+					tf.trees[it][jt].wScore++
+					if tf.trees[it][j].h >= tree.h {
+						break
+					}
+				}
+			}
+			if jt < len(tf.trees[it])-1 {
+				for j := jt + 1; j < len(tf.trees[it]); j++ {
+					tf.trees[it][jt].eScore++
+					if tf.trees[it][j].h >= tree.h {
+						break
+					}
+				}
+			}
+
+			if it > 0 {
+				for i := it - 1; i >= 0; i-- {
+					tf.trees[it][jt].nScore++
+					if tf.trees[i][jt].h >= tree.h {
+						break
+					}
+				}
+			}
+			if it < len(tf.trees)-1 {
+				for i := it + 1; i < len(tf.trees); i++ {
+					tf.trees[it][jt].sScore++
+					if tf.trees[i][jt].h >= tree.h {
+						break
+					}
+				}
+			}
+		}
+	}
+}
+
+func (tf TreeForest) findBestScenicScore() (bestScore int) {
+	for _, treeLine := range tf.trees {
+		for _, tree := range treeLine {
+			score := tree.TotalScore()
+			if score > bestScore {
+				bestScore = score
+			}
+		}
+	}
+	return bestScore
+}
+
 func (tf TreeForest) Print() (s string) {
 	for _, treeLine := range tf.trees {
 		for _, tree := range treeLine {
-			s += fmt.Sprintf("%s ", tree.Print())
+			// s += fmt.Sprintf("%s ", tree.Print())
+			s += fmt.Sprintf("%s ", tree.PrintWithScenicScore())
 		}
 		s += "\n"
 	}
@@ -141,5 +201,16 @@ func (t Tree) Print() (s string) {
 		// s = fmt.Sprintf("%d*(%s)", t.h, inv)
 		s = fmt.Sprintf("%d*", t.h)
 	}
+	return s
+}
+
+func (t Tree) TotalScore() (i int) {
+	i = t.wScore * t.nScore * t.eScore * t.sScore
+	return i
+}
+
+func (t Tree) PrintWithScenicScore() (s string) {
+	// s = fmt.Sprintf("%d_%d/%d/%d/%d", t.h, t.wScore, t.nScore, t.eScore, t.sScore)
+	s = fmt.Sprintf("%d_%d", t.h, t.TotalScore())
 	return s
 }
